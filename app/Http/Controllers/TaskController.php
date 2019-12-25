@@ -26,6 +26,30 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        return view('tasks.index');
+        //$tasks=auth()->user()->tasks()->paginate(2);
+        $tasks=auth()->user()->tasks;
+
+        return view('tasks.index', [
+            'tasks' => $tasks,
+        ]);    }
+
+    /**
+     * 建立新的任務。
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+        //驗證接收到的表單輸入並建立新的任務
+        //讓 name 欄位為必填，且它必須少於 255 字元
+        $this->validate($request, [
+            'name' => 'required|max:255',
+        ]);
+        //建立任務
+        $request->user()->tasks()->create([
+            'name' => $request->name,
+        ]);
+        return redirect('/tasks');
     }
 }
