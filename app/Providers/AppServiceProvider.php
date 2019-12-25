@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Policies\TaskPolicy;
+use App\Task;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +26,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
         //
     }
+
+    protected $policies = [
+        Task::class => TaskPolicy::class,
+    ];
 }
