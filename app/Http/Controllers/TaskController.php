@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Task;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -50,6 +51,20 @@ class TaskController extends Controller
         $request->user()->tasks()->create([
             'name' => $request->name,
         ]);
+        return redirect('/tasks');
+    }
+
+    /**
+     * 移除給定的任務。
+     *
+     * @param  Request  $request
+     * @param  Task  $task
+     * @return Response
+     */
+    public function destroy(Request $request, Task $task)
+    {
+        $this->authorize('destroy', $task);
+        $task->delete();
         return redirect('/tasks');
     }
 }
